@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PISSHILFE</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000;
+      color: #fff;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 3rem;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      position: relative;
+      background: linear-gradient(
+        270deg,
+        red, orange, yellow, green, cyan, blue, magenta, red
+      );
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowMove 5s linear infinite;
+    }
+
+    @keyframes rainbowMove {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .therapy-text {
+      text-align: center;
+      max-width: 400px;
+      font-size: 1rem;
+      line-height: 1.4;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    /* Glitzer‑Funken über Text (Sparkle) */
+    .therapy-text::after,
+    h1::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 80%);
+      background-size: 4px 4px;
+      animation: sparkle 0.5s linear infinite;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes sparkle {
+      from { background-position: 0 0; }
+      to { background-position: 4px 4px; }
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(4, auto);
+      gap: 20px;
+      width: 100%;
+      max-width: 600px;
+      justify-items: center;
+    }
+
+    .btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      position: relative;
+      color: white;
+      background: linear-gradient(
+        270deg,
+        red, orange, yellow, green, cyan, blue, magenta, red
+      );
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowMove 5s linear infinite;
+      mix-blend-mode: difference;
+      overflow: hidden;
+      padding: 10px;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 75%);
+      background-size: 3px 3px;
+      animation: sparkle 0.5s linear infinite;
+      mix-blend-mode: screen;
+    }
+
+    .btn::before {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      color: white;
+      mix-blend-mode: difference;
+      clip: rect(0, 0, 0, 0);
+      animation: btn-glitch 2s infinite linear alternate-reverse;
+    }
+
+    @keyframes btn-glitch {
+      0% { clip: rect(0, 999px, 0, 0); transform: translate(0,0); }
+      20% { clip: rect(20px, 999px, 50px, 0); transform: translate(-2px, -1px); }
+      40% { clip: rect(40px, 999px, 80px, 0); transform: translate(2px, 1px); }
+      60% { clip: rect(60px, 999px, 100px, 0); transform: translate(-1px, 2px); }
+      80% { clip: rect(80px, 999px, 120px, 0); transform: translate(1px, -2px); }
+      100% { clip: rect(0, 999px, 0, 0); transform: translate(0,0); }
+    }
+
+    #audio-fallbacks { display: none; }
+  </style>
+</head>
+<body>
+  <h1 data-text="PISSHILFE">PISSHILFE</h1>
+
+  <div class="therapy-text">
+    USE THESE SOUNDS TO SUPPORT YOUR URINE CONTROL PRACTICE. TAP A BUTTON BELOW TO PLAY. FOCUS ON YOUR BREATH, STAY PRESENT, AND TRUST YOUR BODY.
+  </div>
+
+  <div class="buttons" id="buttons"></div>
+
+  <div id="audio-fallbacks">
+    <audio id="audio1" src="sounds/sound1.m4a"></audio>
+    <audio id="audio2" src="sounds/sound2.m4a"></audio>
+    <audio id="audio3" src="sounds/sound3.m4a"></audio>
+    <audio id="audio4" src="sounds/sound4.m4a"></audio>
+    <audio id="audio5" src="sounds/sound5.m4a"></audio>
+    <audio id="audio6" src="sounds/sound6.m4a"></audio>
+    <audio id="audio7" src="sounds/sound7.m4a"></audio>
+    <audio id="audio8" src="sounds/sound8.m4a"></audio>
+    <audio id="audio9" src="sounds/sound9.m4a"></audio>
+    <audio id="audio10" src="sounds/sound10.m4a"></audio>
+    <audio id="audio11" src="sounds/sound11.m4a"></audio>
+    <audio id="audio12" src="sounds/sound12.m4a"></audio>
+  </div>
+
+  <script>
+    // Fisher–Yates Shuffle Funktion, um Sound-IDs zu mischen :contentReference[oaicite:0]{index=0}
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let current = { source: null, gainNode: null };
+
+    const buf = {};
+
+    // lade alle 12 Sounds
+    async function load(i) {
+      try {
+        const res = await fetch(`sounds/sound${i}.m4a`);
+        const ab = await res.arrayBuffer();
+        buf[i] = await audioCtx.decodeAudioData(ab);
+      } catch (e) {
+        buf[i] = null;
+      }
+    }
+    for (let i = 1; i <= 12; i++) load(i);
+
+    function crossfadeTo(buffer) {
+      const now = audioCtx.currentTime;
+      const newSource = audioCtx.createBufferSource();
+      newSource.buffer = buffer;
+      const newGain = audioCtx.createGain();
+      newGain.gain.setValueAtTime(0, now);
+      newSource.connect(newGain).connect(audioCtx.destination);
+      newSource.start(now);
+      newGain.gain.linearRampToValueAtTime(1, now + 1);
+      if (current.source && current.gainNode) {
+        const oldGain = current.gainNode;
+        oldGain.gain.setValueAtTime(oldGain.gain.value, now);
+        oldGain.gain.linearRampToValueAtTime(0, now + 1);
+        current.source.stop(now + 1);
+      }
+      current = { source: newSource, gainNode: newGain };
+    }
+
+    function playFallback(i) {
+      for (let j = 1; j <= 12; j++) {
+        const a = document.getElementById(`audio${j}`);
+        if (!a.paused) {
+          a.pause();
+          a.currentTime = 0;
+        }
+      }
+      const audioEl = document.getElementById(`audio${i}`);
+      audioEl.play();
+    }
+
+    const labels = [
+      "PISS", "FART", "SPRAY", "DRIP",
+      "SPLASH", "GUSH", "STREAM", "TRICKLE",
+      "BURST", "HISS", "ZZZ", "WET"
+    ];
+
+    // Erzeuge ein Array von Sound‑IDs 1–12 und mische es
+    const soundIds = shuffleArray([...Array(12)].map((_, i) => i + 1));
+
+    const btnContainer = document.getElementById('buttons');
+    for (let i = 0; i < 12; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      const label = labels[i];
+      btn.setAttribute('data-text', label);
+      btn.textContent = label;
+
+      const soundId = soundIds[i]; // zufällige Sound-ID für diesen Button
+
+      btn.addEventListener('click', () => {
+        const b = buf[soundId];
+        if (b) {
+          crossfadeTo(b);
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+        } else {
+          playFallback(soundId);
+        }
+      });
+
+      btnContainer.appendChild(btn);
+    }
+
+    document.body.addEventListener('touchstart', () => {
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }, { once: true });
+  </script>
+</body>
+</html>
