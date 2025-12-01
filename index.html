@@ -1,146 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PISSHILFE</title>
+  <title>Klangunterstützung für Urinkontrollen</title>
+
+  <!-- Comic Neue Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+    rel="stylesheet">
+
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background: #000;
-      color: #fff;
-      font-family: sans-serif;
+      background: #f4d1ae;
+      /* warmes Gelb */
+      color: #06bcc1;
+      font-family: "Comic Neue", cursive;
+      font-weight: 400;
+      font-style: normal;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
       padding: 40px 20px;
-      position: relative;
+    }
+
+    .screen-frame {
+      border: 6px ridge #c0c0c0;
+      background: #f4edea;
+      max-width: 820px;
+      width: 100%;
+      box-shadow:
+        0 0 0 3px #404040,
+        6px 6px 0 #808080;
+    }
+
+    .title-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(90deg, #023e8a, #0077b6);
+      padding: 4px 8px;
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-family: "Comic Neue", cursive;
+      font-weight: 700;
+    }
+
+    .title-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .content {
+      padding: 20px;
+      border-top: 4px solid #d0d0d0;
     }
 
     h1 {
-      font-size: 3rem;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-      position: relative;
-      background: linear-gradient(
-        270deg,
-        red, orange, yellow, green, cyan, blue, magenta, red
-      );
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: rainbowMove 5s linear infinite;
-    }
-
-    @keyframes rainbowMove {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
-    }
-
-    .therapy-text {
+      font-size: 2.6rem;
+      margin-bottom: 12px;
       text-align: center;
-      max-width: 400px;
-      font-size: 1rem;
-      line-height: 1.4;
-      text-transform: uppercase;
-      margin-bottom: 40px;
-      position: relative;
+      color: #12263a;
+      font-family: "Comic Neue", cursive;
+      font-weight: 700;
     }
 
-    /* Glitzer‑Funken über Text (Sparkle) */
-    .therapy-text::after,
-    h1::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 80%);
-      background-size: 4px 4px;
-      animation: sparkle 0.5s linear infinite;
-      mix-blend-mode: screen;
-    }
-
-    @keyframes sparkle {
-      from { background-position: 0 0; }
-      to { background-position: 4px 4px; }
+    .subtitle {
+      text-align: center;
+      font-size: 1.05rem;
+      margin-bottom: 24px;
+      color: #12263a;
+      font-family: "Comic Neue", cursive;
+      font-weight: 400;
+      line-height: 1.5;
     }
 
     .buttons {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(4, auto);
-      gap: 20px;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: auto;
+      gap: 18px;
       width: 100%;
-      max-width: 600px;
       justify-items: center;
     }
 
-    .btn {
-      background: transparent;
+    .img-btn {
       border: none;
+      background: transparent;
+      padding: 0;
       cursor: pointer;
-      font-size: 1.5rem;
-      font-weight: bold;
-      text-transform: uppercase;
+      outline: none;
       position: relative;
-      color: white;
-      background: linear-gradient(
-        270deg,
-        red, orange, yellow, green, cyan, blue, magenta, red
-      );
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: rainbowMove 5s linear infinite;
-      mix-blend-mode: difference;
-      overflow: hidden;
-      padding: 10px;
     }
 
-    .btn::after {
-      content: '';
+    /* Original-Bild */
+    .img-btn img {
+      width: 100%;
+      max-width: 120px;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      display: block;
+      transition:
+        transform 0.16s ease-out,
+        filter 0.16s ease-out;
+      filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.25));
+    }
+
+    /* Overlay-Canvas für Outline */
+    .outline-canvas {
       position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
       pointer-events: none;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 75%);
-      background-size: 3px 3px;
-      animation: sparkle 0.5s linear infinite;
-      mix-blend-mode: screen;
+      opacity: 0;
+      transition: opacity 0.16s ease-out, transform 0.16s ease-out;
     }
 
-    .btn::before {
-      content: attr(data-text);
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      color: white;
-      mix-blend-mode: difference;
-      clip: rect(0, 0, 0, 0);
-      animation: btn-glitch 2s infinite linear alternate-reverse;
+    /* Hover-Effekt: Bild größer + Outline sichtbar */
+    .img-btn:hover img,
+    .img-btn:focus-visible img {
+      transform: scale(1.08);
+      filter: brightness(1.05);
     }
 
-    @keyframes btn-glitch {
-      0% { clip: rect(0, 999px, 0, 0); transform: translate(0,0); }
-      20% { clip: rect(20px, 999px, 50px, 0); transform: translate(-2px, -1px); }
-      40% { clip: rect(40px, 999px, 80px, 0); transform: translate(2px, 1px); }
-      60% { clip: rect(60px, 999px, 100px, 0); transform: translate(-1px, 2px); }
-      80% { clip: rect(80px, 999px, 120px, 0); transform: translate(1px, -2px); }
-      100% { clip: rect(0, 999px, 0, 0); transform: translate(0,0); }
+    .img-btn:hover .outline-canvas,
+    .img-btn:focus-visible .outline-canvas {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.08);
     }
 
-    #audio-fallbacks { display: none; }
+    .img-btn:active img {
+      transform: scale(1.03);
+      filter: brightness(1.02);
+    }
+
+    .img-btn:active .outline-canvas {
+      transform: translate(-50%, -50%) scale(1.03);
+    }
+
+    .status-bar {
+      margin-top: 20px;
+      padding: 6px 8px;
+      border-top: 1px solid #12263a;
+      font-size: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      color: #12263a;
+      font-family: "Comic Neue", cursive;
+      font-weight: 400;
+    }
+
+    .status-bar span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    @media (max-width: 700px) {
+      .buttons {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+
+      .img-btn img {
+        max-width: 90px;
+      }
+
+      h1 {
+        font-size: 2.1rem;
+      }
+
+      .status-bar {
+        flex-direction: column;
+        gap: 4px;
+      }
+    }
+
+    #audio-fallbacks {
+      display: none;
+    }
   </style>
 </head>
+
 <body>
-  <h1 data-text="PISSHILFE">PISSHILFE</h1>
+  <div class="screen-frame">
+    <div class="title-bar">
+      <div class="title-bar-left">
+        <span>pisshilfe.exe</span>
+      </div>
+      <!-- Close-Button entfernt -->
+    </div>
 
-  <div class="therapy-text">
-    USE THESE SOUNDS TO SUPPORT YOUR URINE CONTROL PRACTICE. TAP A BUTTON BELOW TO PLAY. FOCUS ON YOUR BREATH, STAY PRESENT, AND TRUST YOUR BODY.
+    <div class="content">
+      <h1>Klangunterstützung für Urinkontrollen</h1>
+
+      <p class="subtitle">
+        Diese Klangoberfläche wurde geschaffen, um Menschen während der Urinkontrolle
+        zu unterstützen. Viele Betroffene erleben in dieser Situation Scham, Druck oder Blockaden beim Wasserlassen –
+        insbesondere, wenn jemand anwesend ist und zuschaut. Die hier angebotenen Klänge können helfen, innere
+        Anspannung zu reduzieren, den Fokus sanft nach innen zu lenken und das Wasserlassen unter Beobachtung zu
+        erleichtern. Wähle in deinem Tempo einen Klang aus, der sich für dich stimmig anfühlt, und gib dir bewusst die
+        Erlaubnis, in diesem Moment ganz bei dir anzukommen.
+      </p>
+
+      <div class="buttons" id="buttons"></div>
+
+      <div class="status-bar">
+        <span>VERSION 1.0</span>
+        <span>© 1995 PISSHILFE MULTIMEDIA LABS</span>
+      </div>
+    </div>
   </div>
-
-  <div class="buttons" id="buttons"></div>
 
   <div id="audio-fallbacks">
     <audio id="audio1" src="sounds/sound1.m4a"></audio>
@@ -158,7 +240,7 @@
   </div>
 
   <script>
-    // Fisher–Yates Shuffle Funktion, um Sound-IDs zu mischen :contentReference[oaicite:0]{index=0}
+    // Utility: Shuffle (Fisher–Yates)
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -169,83 +251,173 @@
 
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     let current = { source: null, gainNode: null };
+    const buffers = {};
+    const NUM_SOUNDS = 12;
 
-    const buf = {};
-
-    // lade alle 12 Sounds
-    async function load(i) {
+    // Sounds laden
+    async function loadSound(i) {
       try {
         const res = await fetch(`sounds/sound${i}.m4a`);
         const ab = await res.arrayBuffer();
-        buf[i] = await audioCtx.decodeAudioData(ab);
-      } catch (e) {
-        buf[i] = null;
+        buffers[i] = await audioCtx.decodeAudioData(ab);
+      } catch {
+        buffers[i] = null;
       }
     }
-    for (let i = 1; i <= 12; i++) load(i);
+    for (let i = 1; i <= NUM_SOUNDS; i++) loadSound(i);
 
     function crossfadeTo(buffer) {
       const now = audioCtx.currentTime;
       const newSource = audioCtx.createBufferSource();
-      newSource.buffer = buffer;
       const newGain = audioCtx.createGain();
+
+      newSource.buffer = buffer;
       newGain.gain.setValueAtTime(0, now);
+
       newSource.connect(newGain).connect(audioCtx.destination);
       newSource.start(now);
       newGain.gain.linearRampToValueAtTime(1, now + 1);
+
       if (current.source && current.gainNode) {
         const oldGain = current.gainNode;
         oldGain.gain.setValueAtTime(oldGain.gain.value, now);
         oldGain.gain.linearRampToValueAtTime(0, now + 1);
         current.source.stop(now + 1);
       }
+
       current = { source: newSource, gainNode: newGain };
     }
 
-    function playFallback(i) {
-      for (let j = 1; j <= 12; j++) {
+    function stopAllFallback() {
+      for (let j = 1; j <= NUM_SOUNDS; j++) {
         const a = document.getElementById(`audio${j}`);
-        if (!a.paused) {
+        if (a && !a.paused) {
           a.pause();
           a.currentTime = 0;
         }
       }
-      const audioEl = document.getElementById(`audio${i}`);
-      audioEl.play();
     }
 
-    const labels = [
-      "PISS", "FART", "SPRAY", "DRIP",
-      "SPLASH", "GUSH", "STREAM", "TRICKLE",
-      "BURST", "HISS", "ZZZ", "WET"
-    ];
+    function playFallback(i) {
+      stopAllFallback();
+      const audioEl = document.getElementById(`audio${i}`);
+      if (audioEl) audioEl.play();
+    }
 
-    // Erzeuge ein Array von Sound‑IDs 1–12 und mische es
-    const soundIds = shuffleArray([...Array(12)].map((_, i) => i + 1));
+    // Bilddaten – Dateinamen bleiben gleich
+    const imageData = Array.from({ length: NUM_SOUNDS }, (_, i) => ({
+      src: `images/piss${i + 1}.png`,
+      alt: `piss ${i + 1}`
+    }));
+
+    // Bilder & Sounds zufällig anordnen
+    const imageIndices = shuffleArray(Array.from({ length: NUM_SOUNDS }, (_, i) => i));   // 0–11, Bilder
+    const soundIds = shuffleArray(Array.from({ length: NUM_SOUNDS }, (_, i) => i + 1));   // 1–12, Sounds
 
     const btnContainer = document.getElementById('buttons');
-    for (let i = 0; i < 12; i++) {
-      const btn = document.createElement('button');
-      btn.className = 'btn';
-      const label = labels[i];
-      btn.setAttribute('data-text', label);
-      btn.textContent = label;
 
-      const soundId = soundIds[i]; // zufällige Sound-ID für diesen Button
+    // 1) Alle Buttons und Bilder synchron bauen
+    for (let i = 0; i < NUM_SOUNDS; i++) {
+      const wrapper = document.createElement('button');
+      wrapper.className = 'img-btn';
 
-      btn.addEventListener('click', () => {
-        const b = buf[soundId];
-        if (b) {
-          crossfadeTo(b);
+      const img = document.createElement('img');
+      const imgIndex = imageIndices[i];
+      const data = imageData[imgIndex];
+
+      img.src = data.src;
+      img.alt = data.alt;
+
+      const soundId = soundIds[i];
+
+      wrapper.appendChild(img);
+      btnContainer.appendChild(wrapper);
+
+      wrapper.addEventListener('click', () => {
+        const buffer = buffers[soundId];
+        if (buffer) {
+          crossfadeTo(buffer);
           if (audioCtx.state === 'suspended') audioCtx.resume();
         } else {
           playFallback(soundId);
         }
       });
-
-      btnContainer.appendChild(btn);
     }
 
+    // 2) Outline-Generator: findet Kanten anhand von Alpha
+    function generateOutlineCanvasForImageElement(imgElement) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = imgElement.src;
+
+        img.onload = () => {
+          const { width: w, height: h } = img;
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+
+          const imgData = ctx.getImageData(0, 0, w, h);
+          const data = imgData.data;
+
+          const outlineCanvas = document.createElement('canvas');
+          outlineCanvas.width = w;
+          outlineCanvas.height = h;
+          const oCtx = outlineCanvas.getContext('2d');
+
+          const alphaThreshold = 20;
+          const outlineThickness = 1;
+
+          for (let y = outlineThickness; y < h - outlineThickness; y++) {
+            for (let x = outlineThickness; x < w - outlineThickness; x++) {
+              const idx = (y * w + x) * 4;
+              if (data[idx + 3] < alphaThreshold) continue;
+
+              let isEdge = false;
+              for (let dy = -outlineThickness; dy <= outlineThickness && !isEdge; dy++) {
+                for (let dx = -outlineThickness; dx <= outlineThickness && !isEdge; dx++) {
+                  if (!dx && !dy) continue;
+                  const nx = x + dx;
+                  const ny = y + dy;
+                  const nIdx = (ny * w + nx) * 4;
+                  if (data[nIdx + 3] < alphaThreshold) {
+                    isEdge = true;
+                  }
+                }
+              }
+
+              if (isEdge) {
+                oCtx.fillStyle = 'white';
+                oCtx.fillRect(x, y, 1, 1);
+              }
+            }
+          }
+
+          outlineCanvas.classList.add('outline-canvas');
+          resolve(outlineCanvas);
+        };
+
+        img.onerror = () => resolve(null);
+      });
+    }
+
+    // 3) Für alle existierenden Bilder im Grid Outline-Canvas nachträglich hinzufügen
+    async function addOutlinesToAllImages() {
+      const buttons = btnContainer.querySelectorAll('.img-btn');
+      for (const btn of buttons) {
+        const img = btn.querySelector('img');
+        if (!img) continue;
+        const outlineCanvas = await generateOutlineCanvasForImageElement(img);
+        if (outlineCanvas) {
+          btn.appendChild(outlineCanvas);
+        }
+      }
+    }
+
+    addOutlinesToAllImages();
+
+    // Mobile: AudioContext aktivieren
     document.body.addEventListener('touchstart', () => {
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
@@ -253,4 +425,5 @@
     }, { once: true });
   </script>
 </body>
+
 </html>
