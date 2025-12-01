@@ -104,7 +104,7 @@
       position: relative;
     }
 
-    /* Original-Bild */
+    /* Bild-Buttons */
     .img-btn img {
       width: 100%;
       max-width: 120px;
@@ -117,37 +117,16 @@
       filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.25));
     }
 
-    /* Overlay-Canvas für Outline */
-    .outline-canvas {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(1);
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.16s ease-out, transform 0.16s ease-out;
-    }
-
-    /* Hover-Effekt: Bild größer + Outline sichtbar */
+    /* Hover/Focus: größer + heller */
     .img-btn:hover img,
     .img-btn:focus-visible img {
       transform: scale(1.08);
       filter: brightness(1.05);
     }
 
-    .img-btn:hover .outline-canvas,
-    .img-btn:focus-visible .outline-canvas {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1.08);
-    }
-
     .img-btn:active img {
       transform: scale(1.03);
       filter: brightness(1.02);
-    }
-
-    .img-btn:active .outline-canvas {
-      transform: translate(-50%, -50%) scale(1.03);
     }
 
     .status-bar {
@@ -316,7 +295,7 @@
 
     const btnContainer = document.getElementById('buttons');
 
-    // 1) Alle Buttons und Bilder synchron bauen
+    // Buttons + Bilder bauen
     for (let i = 0; i < NUM_SOUNDS; i++) {
       const wrapper = document.createElement('button');
       wrapper.className = 'img-btn';
@@ -343,79 +322,6 @@
         }
       });
     }
-
-    // 2) Outline-Generator: findet Kanten anhand von Alpha
-    function generateOutlineCanvasForImageElement(imgElement) {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.src = imgElement.src;
-
-        img.onload = () => {
-          const { width: w, height: h } = img;
-          const canvas = document.createElement('canvas');
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, w, h);
-
-          const imgData = ctx.getImageData(0, 0, w, h);
-          const data = imgData.data;
-
-          const outlineCanvas = document.createElement('canvas');
-          outlineCanvas.width = w;
-          outlineCanvas.height = h;
-          const oCtx = outlineCanvas.getContext('2d');
-
-          const alphaThreshold = 20;
-          const outlineThickness = 1;
-
-          for (let y = outlineThickness; y < h - outlineThickness; y++) {
-            for (let x = outlineThickness; x < w - outlineThickness; x++) {
-              const idx = (y * w + x) * 4;
-              if (data[idx + 3] < alphaThreshold) continue;
-
-              let isEdge = false;
-              for (let dy = -outlineThickness; dy <= outlineThickness && !isEdge; dy++) {
-                for (let dx = -outlineThickness; dx <= outlineThickness && !isEdge; dx++) {
-                  if (!dx && !dy) continue;
-                  const nx = x + dx;
-                  const ny = y + dy;
-                  const nIdx = (ny * w + nx) * 4;
-                  if (data[nIdx + 3] < alphaThreshold) {
-                    isEdge = true;
-                  }
-                }
-              }
-
-              if (isEdge) {
-                oCtx.fillStyle = 'white';
-                oCtx.fillRect(x, y, 1, 1);
-              }
-            }
-          }
-
-          outlineCanvas.classList.add('outline-canvas');
-          resolve(outlineCanvas);
-        };
-
-        img.onerror = () => resolve(null);
-      });
-    }
-
-    // 3) Für alle existierenden Bilder im Grid Outline-Canvas nachträglich hinzufügen
-    async function addOutlinesToAllImages() {
-      const buttons = btnContainer.querySelectorAll('.img-btn');
-      for (const btn of buttons) {
-        const img = btn.querySelector('img');
-        if (!img) continue;
-        const outlineCanvas = await generateOutlineCanvasForImageElement(img);
-        if (outlineCanvas) {
-          btn.appendChild(outlineCanvas);
-        }
-      }
-    }
-
-    addOutlinesToAllImages();
 
     // Mobile: AudioContext aktivieren
     document.body.addEventListener('touchstart', () => {
