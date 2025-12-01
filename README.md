@@ -1,6 +1,6 @@
 # Klangunterstützung für Urinkontrollen
 
-PISSHILFE ist eine kleine Webanwendung, die durch Wasser- und Flüssigkeitsgeräusche Menschen bei Urinkontrollen unterstützt – insbesondere im Kontext von Suchterkrankungen und/oder schüchterner Blase (Paruresis).
+pisshilfe.exe ist eine kleine Webanwendung, die durch Wasser- und Flüssigkeitsgeräusche Menschen bei Urinkontrollen unterstützt – insbesondere im Kontext von Suchterkrankungen und/oder schüchterner Blase (Paruresis).
 
 Die Oberfläche kombiniert bewusst eine verspielte Retro-Optik (Windows‑95-/Netscape-Vibes) mit einem fachlich ernst gemeinten, einfühlsamen Text.
 
@@ -14,12 +14,12 @@ Urinkontrollen sind in der Suchthilfe und -therapie verbreitet, werden von viele
 
 erlebt – insbesondere, wenn das Wasserlassen unter Beobachtung stattfinden muss oder eine sogenannte „schüchterne Blase“ (Paruresis) vorliegt.
 
-PISSHILFE möchte in dieser Situation helfen, indem:
+pisshilfe.exe möchte in dieser Situation helfen, indem:
 
-- Wasser-/Pinkelgeräusche als „klangliche Unterstützung“ bereitgestellt werden,
-- innere Anspannung reduziert,
-- der Fokus sanft nach innen verlagert,
-- und Blockaden beim Wasserlassen etwas gelockert werden können.
+- Pinkel- und Klogeräusche als „klangliche Unterstützung“ bereitgestellt werden
+- innere Anspannung reduziert
+- der Fokus sanft nach innen verlagert
+- und Blockaden beim Wasserlassen etwas gelockert werden können
 
 ## Features
 
